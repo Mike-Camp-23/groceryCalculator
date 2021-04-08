@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		847AAB7D2614AB8E00D290D0 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AAB7C2614AB8E00D290D0 /* ListViewController.swift */; };
+		847AAB802614AFA500D290D0 /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AAB7F2614AFA500D290D0 /* ShoppingItem.swift */; };
+		847AAB8326150D6F00D290D0 /* DripSound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 847AAB8226150D6F00D290D0 /* DripSound.m4a */; };
+		847AAB8926161D6A00D290D0 /* DripSound2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 847AAB8826161D6A00D290D0 /* DripSound2.m4a */; };
+		847AAB8D261CA6D000D290D0 /* InfoPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AAB8C261CA6D000D290D0 /* InfoPageViewController.swift */; };
 		84EB1CF62613866E00670CE1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EB1CF52613866E00670CE1 /* AppDelegate.swift */; };
 		84EB1CF82613866E00670CE1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EB1CF72613866E00670CE1 /* SceneDelegate.swift */; };
 		84EB1CFA2613866E00670CE1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EB1CF92613866E00670CE1 /* ViewController.swift */; };
@@ -17,6 +22,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		847AAB7C2614AB8E00D290D0 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		847AAB7F2614AFA500D290D0 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
+		847AAB8226150D6F00D290D0 /* DripSound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DripSound.m4a; sourceTree = "<group>"; };
+		847AAB8826161D6A00D290D0 /* DripSound2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = DripSound2.m4a; path = ../../DripSound2.m4a; sourceTree = "<group>"; };
+		847AAB8C261CA6D000D290D0 /* InfoPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPageViewController.swift; sourceTree = "<group>"; };
 		84EB1CF22613866E00670CE1 /* groceryCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groceryCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84EB1CF52613866E00670CE1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84EB1CF72613866E00670CE1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +49,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		840777D5261E2213005F82C3 /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				847AAB7F2614AFA500D290D0 /* ShoppingItem.swift */,
+			);
+			path = "Data Models";
+			sourceTree = "<group>";
+		};
+		840777D6261E2229005F82C3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				84EB1CFB2613866E00670CE1 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		840777D7261E223C005F82C3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				84EB1CF92613866E00670CE1 /* ViewController.swift */,
+				847AAB8C261CA6D000D290D0 /* InfoPageViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		84EB1CE92613866E00670CE1 = {
 			isa = PBXGroup;
 			children = (
@@ -60,9 +95,13 @@
 			children = (
 				84EB1CF52613866E00670CE1 /* AppDelegate.swift */,
 				84EB1CF72613866E00670CE1 /* SceneDelegate.swift */,
-				84EB1CF92613866E00670CE1 /* ViewController.swift */,
-				84EB1CFB2613866E00670CE1 /* Main.storyboard */,
+				840777D7261E223C005F82C3 /* Controllers */,
+				840777D6261E2229005F82C3 /* Views */,
+				840777D5261E2213005F82C3 /* Data Models */,
+				847AAB7C2614AB8E00D290D0 /* ListViewController.swift */,
 				84EB1D012613867100670CE1 /* Assets.xcassets */,
+				847AAB8826161D6A00D290D0 /* DripSound2.m4a */,
+				847AAB8226150D6F00D290D0 /* DripSound.m4a */,
 				84EB1D032613867100670CE1 /* LaunchScreen.storyboard */,
 				84EB1D062613867100670CE1 /* Info.plist */,
 				84EB1CFE2613866E00670CE1 /* groceryCalculator.xcdatamodeld */,
@@ -128,7 +167,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				84EB1D052613867100670CE1 /* LaunchScreen.storyboard in Resources */,
+				847AAB8326150D6F00D290D0 /* DripSound.m4a in Resources */,
 				84EB1D022613867100670CE1 /* Assets.xcassets in Resources */,
+				847AAB8926161D6A00D290D0 /* DripSound2.m4a in Resources */,
 				84EB1CFD2613866E00670CE1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,9 +181,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847AAB802614AFA500D290D0 /* ShoppingItem.swift in Sources */,
 				84EB1CFA2613866E00670CE1 /* ViewController.swift in Sources */,
 				84EB1CF62613866E00670CE1 /* AppDelegate.swift in Sources */,
+				847AAB8D261CA6D000D290D0 /* InfoPageViewController.swift in Sources */,
 				84EB1CF82613866E00670CE1 /* SceneDelegate.swift in Sources */,
+				847AAB7D2614AB8E00D290D0 /* ListViewController.swift in Sources */,
 				84EB1D002613866E00670CE1 /* groceryCalculator.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,14 +337,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 76ZV6J8YGZ;
 				INFOPLIST_FILE = groceryCalculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.Camp.Mike.groceryCalculator;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.Camp.Mike.groceryCalc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -312,14 +358,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 76ZV6J8YGZ;
 				INFOPLIST_FILE = groceryCalculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = me.Camp.Mike.groceryCalculator;
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = me.Camp.Mike.groceryCalc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
