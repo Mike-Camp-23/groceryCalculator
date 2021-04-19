@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8459411F262DB8D70032BE75 /* CustomNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8459411E262DB8D70032BE75 /* CustomNumberButton.swift */; };
 		847AAB7D2614AB8E00D290D0 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AAB7C2614AB8E00D290D0 /* ListViewController.swift */; };
 		847AAB802614AFA500D290D0 /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AAB7F2614AFA500D290D0 /* ShoppingItem.swift */; };
 		847AAB8326150D6F00D290D0 /* DripSound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 847AAB8226150D6F00D290D0 /* DripSound.m4a */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8459411E262DB8D70032BE75 /* CustomNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNumberButton.swift; sourceTree = "<group>"; };
 		847AAB7C2614AB8E00D290D0 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		847AAB7F2614AFA500D290D0 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
 		847AAB8226150D6F00D290D0 /* DripSound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DripSound.m4a; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				84EB1CF92613866E00670CE1 /* ViewController.swift */,
+				8459411E262DB8D70032BE75 /* CustomNumberButton.swift */,
 				847AAB8C261CA6D000D290D0 /* InfoPageViewController.swift */,
 			);
 			path = Controllers;
@@ -184,6 +187,7 @@
 				847AAB802614AFA500D290D0 /* ShoppingItem.swift in Sources */,
 				84EB1CFA2613866E00670CE1 /* ViewController.swift in Sources */,
 				84EB1CF62613866E00670CE1 /* AppDelegate.swift in Sources */,
+				8459411F262DB8D70032BE75 /* CustomNumberButton.swift in Sources */,
 				847AAB8D261CA6D000D290D0 /* InfoPageViewController.swift in Sources */,
 				84EB1CF82613866E00670CE1 /* SceneDelegate.swift in Sources */,
 				847AAB7D2614AB8E00D290D0 /* ListViewController.swift in Sources */,
@@ -264,7 +268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -319,7 +323,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -337,7 +341,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 76ZV6J8YGZ;
 				INFOPLIST_FILE = groceryCalculator/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -346,7 +350,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.Camp.Mike.groceryCalc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -358,7 +362,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 76ZV6J8YGZ;
 				INFOPLIST_FILE = groceryCalculator/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -367,7 +371,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = me.Camp.Mike.groceryCalc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import AVFoundation
+
+import AudioToolbox
 
 
 
@@ -18,7 +19,7 @@ class ViewController: UIViewController {
 
     var budgetLimit = 0
     var audio = false
-    var audioPlayer: AVAudioPlayer!
+   
     var shoppingList: [ShoppingItem] = [
         ShoppingItem(item: "Spaghetti", check: false),
         ShoppingItem(item: "Cheese", check: false),
@@ -40,11 +41,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var lowerView: UIView!
     @IBOutlet weak var topViewConstraint: NSLayoutConstraint!
    //
-    @IBOutlet weak var topViewTopEdge: NSLayoutConstraint!
+    @IBOutlet weak var lowerViewTrailing: NSLayoutConstraint!
+//        @IBOutlet weak var topViewTopEdge: NSLayoutConstraint!
+    @IBOutlet weak var lowerViewLeading: NSLayoutConstraint!
     //
    
     
-    @IBOutlet weak var topEdgeConst: NSLayoutConstraint!
+//    @IBOutlet weak var topEdgeConst: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentLabel: UILabel!
@@ -53,6 +56,7 @@ class ViewController: UIViewController {
     
    
     
+   
     
     
     override func viewDidLoad() {
@@ -62,9 +66,10 @@ class ViewController: UIViewController {
 //            itemAray = items
 //        }
         totalInt = defaults.integer(forKey: "total")
-        totalLabel.text = "Total: \(formatter(int: totalInt))"
+        totalLabel.text = "\(formatter(int: totalInt))"
        
         audio = defaults.bool(forKey: "audio")
+        
         budgetLimit = defaults.integer(forKey: "budgetLimit")
         updateBudgetColor()
         
@@ -75,13 +80,46 @@ class ViewController: UIViewController {
     }
     
     
+  
+    
+    
+    
     @IBAction func checkmarkPressed(_ sender: UIButton) {
         uncheckMark()
     }
     
-    @IBAction func numberButtonPressed(_ sender: UIButton) {
 
-        playSound()
+    
+    @IBAction func actionButtonColorChange(_ sender: UIButton) {
+        sender.backgroundColor = UIColor.secondarySystemGroupedBackground
+    }
+    
+    @IBAction func actionButtonTouchedUpOutside(_ sender: UIButton) {
+        sender.backgroundColor = UIColor.systemGray3
+    }
+    
+    
+    @IBAction func buttonColorTap(_ sender: UIButton) {
+        if sender.tag == 1 {
+        sender.backgroundColor = UIColor.darkGray
+        }
+        else {
+            sender.backgroundColor = UIColor.secondarySystemGroupedBackground
+        }
+       }
+    
+    @IBAction func numberTouchedUpOutside(_ sender: UIButton) {
+        if sender.tag == 1 {
+        sender.backgroundColor = UIColor.secondarySystemGroupedBackground
+        }
+        else {
+            sender.backgroundColor = UIColor.systemGray3
+        }
+    }
+    
+    @IBAction func numberButtonPressed(_ sender: UIButton) {
+        sender.backgroundColor = UIColor.secondarySystemGroupedBackground
+        playSound(sender: sender.tag)
         
         if currentString.count >= 7 {
             return
@@ -111,6 +149,7 @@ class ViewController: UIViewController {
             listAnimationClosed()
         } else {
             listAnimationOpen()
+            
 //        currentInt = 0
 //        currentString = ""
 //        currentLabel.text = "$0.00"
@@ -118,9 +157,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func plusPressed(_ sender: UIButton) {
-       
+        
+        playSound(sender: sender.tag)
+        sender.backgroundColor = UIColor.systemGray3
         if let number = Int(currentString) {
-            playSound()
+           
         totalInt += number
         totalLabel.text = formatter(int: totalInt)
         currentString = ""
@@ -135,6 +176,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func minusPressed(_ sender: UIButton) {
+        playSound(sender: sender.tag)
+        sender.backgroundColor = UIColor.systemGray3
         if let number = Int(currentString) {
         totalInt -= number
             
@@ -147,6 +190,8 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func clearCurrentLinePressed(_ sender: UIButton) {
+        playSound(sender: sender.tag)
+        sender.backgroundColor = UIColor.systemGray3
         currentInt = 0
         currentString = ""
         currentLabel.text = "$0.00"
@@ -154,6 +199,8 @@ class ViewController: UIViewController {
     
     
     @IBAction func clearAllPressed(_ sender: UIButton) {
+        playSound(sender: sender.tag)
+        sender.backgroundColor = UIColor.systemGray3
         let alert = UIAlertController(title: "Clear" , message: "Are you sure you want to clear", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Clear", style: .default) { (action) in
@@ -165,7 +212,7 @@ class ViewController: UIViewController {
         
         alert.addAction((UIAlertAction(title: "Cancel", style: .cancel, handler: nil)))
         alert.addAction(action)
-        present(alert, animated: false, completion:
+        present(alert, animated: true, completion:
                 updateBudgetColor)
         
     }
@@ -177,12 +224,17 @@ class ViewController: UIViewController {
         return String("$\(string)")
     }
     
-    func playSound() {
+    func playSound(sender: Int) {
         if audio == true {
-        
-        let url = Bundle.main.url(forResource: "DripSound2", withExtension: "m4a")
-        audioPlayer = try! AVAudioPlayer(contentsOf: url!)
-        audioPlayer.play()
+            if sender == 1 {
+       AudioServicesPlaySystemSound(1104)
+            }
+            else {
+                AudioServicesPlaySystemSound(1105)
+            }
+            
+//            audioPlayer = try! AVAudioPlayer(contentsOf: url!)
+//        audioPlayer.play()
         }
         else {
             return
@@ -223,11 +275,11 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func shoppingListPressed(_ sender: UIButton) {
-        listAnimationOpen()
-    
-    }
-    
+//    @IBAction func shoppingListPressed(_ sender: UIButton) {
+//        listAnimationOpen()
+//
+//
+//
     
     
     
@@ -288,16 +340,16 @@ extension ViewController: UITableViewDelegate {
     
     func updateBudgetColor() {
         if budgetLimit == 0 {
-            totalLabel.backgroundColor = .systemGray
+            totalLabel.backgroundColor = UIColor(named: "GreenColorSet")
         }
         else if totalInt >= budgetLimit {
-            totalLabel.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            totalLabel.backgroundColor = UIColor(named: "RedColorSet")
         }
         else if Double(totalInt) >= Double(budgetLimit) * 0.8 {
-                totalLabel.backgroundColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+            totalLabel.backgroundColor = UIColor(named: "YellowColorSet")
             }
         else {
-            totalLabel.backgroundColor = .systemGray
+            totalLabel.backgroundColor = UIColor(named: "GreenColorSet")
             }
             
         }
@@ -307,71 +359,63 @@ extension ViewController: UITableViewDelegate {
     
     
     func listAnimationOpen() {
-        self.lowerView.isHidden = true
-        self.infoButton.isHidden = false
-        self.checlMarkOutlet.isHidden = false
-        
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut,  animations: {
-
+        UIView.animate(withDuration: 0.13, delay: 0.0, options: .curveEaseInOut,  animations: {
             self.lowerView.alpha = 0
-            
-            
-            self.topEdgeConst.constant = 42
-            self.topViewConstraint.constant = 0
-            self.currentLabel.alpha = 0
-            self.infoButton.alpha = 1
-            self.checlMarkOutlet.alpha = 1
             self.view.layoutIfNeeded()
-            
-            
-            
-        }) { (value: Bool) in
-           
-        }
-//        UIView.animate(withDuration: 0.3, delay: 0.2, options: .curveEaseInOut, animations: {
-//            self.topEdgeConst.constant = 42
-//            self.topViewConstraint.constant = 0
-//            self.currentLabel.alpha = 0
-//            self.infoButton.alpha = 1
-////
-//            self.view.layoutIfNeeded()
-//        })
+            })
         
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseInOut) {
+            
+            
+            self.currentLabel.alpha = 0
+            self.topViewConstraint.constant = 7
+            self.view.layoutIfNeeded()
+        } completion: { (true) in
+            self.lowerView.isHidden = true
+        }
+
+        
+        
+        
+//
 
     }
     
     func listAnimationClosed() {
         lowerView.isHidden = false
-        checlMarkOutlet.isHidden = false
-        infoButton.isHidden = true
        
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: {
-            self.topViewConstraint.constant = 275
-            self.topEdgeConst.constant = 5
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
+            self.topViewConstraint.constant = 225
             self.currentLabel.alpha = 1
-            self.infoButton.alpha = 0
             self.view.layoutIfNeeded()
+            
+        })
+        UIView.animate(withDuration: 0.20, delay: 0.15, options: .curveEaseInOut,  animations: {
             self.lowerView.alpha = 1
-            self.checlMarkOutlet.alpha = 0
+            self.view.layoutIfNeeded()
             
-        }) { (value: Bool) in
-            
-
-            
-        }
-//        UIView.animate(withDuration: 0.13, delay: 0.12, options: .curveEaseInOut,  animations: {
-            
-            
-//        })
+        })
     }
     
     func uncheckMark() {
-        for item in 0..<itemAray.count {
-            itemAray[item].check = false
-            saveItems()
+        let alert = UIAlertController(title: "Remove" , message: "Are you sure you want to remove all Checkmarks", preferredStyle: .alert)
         
-            
+        let action = UIAlertAction(title: "Clear", style: .default) { (action) in
+           
+        
+        
+        
+            for item in 0..<self.itemAray.count {
+                self.itemAray[item].check = false
+                self.saveItems()
+        
         }
+           
+        }
+        alert.addAction((UIAlertAction(title: "Cancel", style: .cancel, handler: nil)))
+        alert.addAction(action)
+        present(alert, animated: true, completion:
+                nil)
     }
     
     func saveItems() {
@@ -427,3 +471,13 @@ extension ViewController: infoPageDelegate {
     }
     
 }
+
+//extension UIButton {
+//    func setBackgroundColor(_ color: UIColor, forState controlState: UIControl.State) {
+//        let colorImage = UIGraphicsRenderer(size: CGSize(width: 1, height: 1)).image { _ in
+//            color.setFill()
+//            UIBezierPath(rect: CGRect(x: 0,y: 0, width: 1,height: 1)).fill()
+//        }
+//        setBackgroundImage(colorImage, for: controlState)
+//    }
+//}

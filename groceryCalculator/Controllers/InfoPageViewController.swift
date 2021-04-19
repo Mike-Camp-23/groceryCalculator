@@ -54,6 +54,9 @@ class InfoPageViewController: UIViewController {
     }
     
     
+    @IBAction func closeButonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
     @IBAction func clearButonPressed(_ sender: UIButton) {
         budgetLimit = 0
         BudgetString = ""
