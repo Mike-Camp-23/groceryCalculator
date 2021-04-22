@@ -7,6 +7,7 @@
 protocol infoPageDelegate: class {
     func audioSwitch(onOff: Bool)
     func budgetLimit(budget: Int)
+    func sortSwitch(onOff: Bool)
     
     
     
@@ -14,16 +15,19 @@ protocol infoPageDelegate: class {
 }
 
 import UIKit
+import AudioToolbox
 
 
 class InfoPageViewController: UIViewController {
     
     
     
+    @IBOutlet weak var sortCheck: UISwitch!
     @IBOutlet weak var audioSwitch: UISwitch!
     var budgetLimit: Int = 0
     var BudgetString = ""
     
+    var sortHolder = true
     var switchHolder = false
     var delegate: infoPageDelegate!
     
@@ -31,12 +35,14 @@ class InfoPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         audioSwitch.isOn = switchHolder
+        sortCheck.isOn = sortHolder
         budgetOutlet.setTitle(formatter(int: budgetLimit), for: .normal)
         
     }
     
     
     @IBAction func returnPressed(_ sender: UIButton) {
+        playSound(sender: sender.tag)
         keyBoardDissapears()
       
     }
@@ -46,7 +52,7 @@ class InfoPageViewController: UIViewController {
     @IBOutlet weak var keyBoard: UIView!
     @IBOutlet weak var budgetLabel: UILabel!
     @IBAction func budgetButton(_ sender: UIButton) {
-        
+        playSound(sender: sender.tag)
         budgetOutlet.setTitle(formatter(int: budgetLimit), for: .normal)
         
         keyBoardAppears()
@@ -55,9 +61,11 @@ class InfoPageViewController: UIViewController {
     
     
     @IBAction func closeButonPressed(_ sender: UIButton) {
+//       performSegue(withIdentifier: "fromInfoToHome", sender: self)
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func clearButonPressed(_ sender: UIButton) {
+        playSound(sender: sender.tag)
         budgetLimit = 0
         BudgetString = ""
         budgetLabel.text = "Budget: \(formatter(int: budgetLimit))"
@@ -65,9 +73,16 @@ class InfoPageViewController: UIViewController {
         delegate.budgetLimit(budget: 0)
     }
     
+    @IBAction func sortButtonPressed(_ sender: UISwitch) {
+        delegate!.sortSwitch(onOff: sender.isOn)
+    }
     @IBAction func audioButtonPressed(_ sender: UISwitch) {
         
         delegate!.audioSwitch(onOff: sender.isOn)
+        if sender.isOn {
+            playSound(sender: 0)
+        }
+        
     }
     
     
@@ -77,6 +92,7 @@ class InfoPageViewController: UIViewController {
             if BudgetString.count >= 7 {
                 return
             } else {
+                playSound(sender: sender.tag)
             BudgetString = BudgetString + numValue
             guard let number = Int(BudgetString) else {
                 fatalError("Cannot convert string to Int")
@@ -116,6 +132,32 @@ class InfoPageViewController: UIViewController {
             
             self.keyBoard.alpha = 1
         })
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        performSegue(withIdentifier: "fromInfoToHome", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "fromInfoToHome" {
+            let vc = segue.destination as! ViewController
+            vc.sortSwitch = sortHolder
+        }
+    }
+    
+    func playSound(sender: Int) {
+        if audioSwitch.isOn {
+            if sender == 1 {
+       AudioServicesPlaySystemSound(1104)
+            }
+            else {
+                AudioServicesPlaySystemSound(1105)
+            }
+            
+
+        }
+        else {
+            return
+        }
     }
     
     

@@ -9,6 +9,12 @@ import Foundation
 
 
 struct ShoppingItem : Codable{
-    let item: String
+    var id: Int
+    var item: String
     var check: Bool
+    var catagory: String
+    var expectedPrice: Int?
+    var date: Date
+    
+    
 }

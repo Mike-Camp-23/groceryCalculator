@@ -6,28 +6,39 @@
 //
 
 import UIKit
-
 import AudioToolbox
 
 
 
 class ViewController: UIViewController {
-  
+
+    
+    
+    var newID = 1
+    var itemAray = [ShoppingItem]()
+    var sortableArray = [ShoppingItem]()
+    var listArray = [String]()
+    var currentShoppingList = "All Lists"
+    
+    
+    
+//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let dataPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("GroceryListArray")
+    
+    let listDataPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("ShoppingListArray")
     let defaults = UserDefaults.standard
-
     var budgetLimit = 0
     var audio = false
-   
-    var shoppingList: [ShoppingItem] = [
-        ShoppingItem(item: "Spaghetti", check: false),
-        ShoppingItem(item: "Cheese", check: false),
-        ShoppingItem(item: "Pasta", check: true)
+    var sortSwitch = true
+//    var shoppingList: [ShoppingItem] = [
+//        ShoppingItem(item: "Spaghetti", check: false),
+//        ShoppingItem(item: "Cheese", check: false),
+//        ShoppingItem(item: "Pasta", check: true)
+//
+//    ]
     
-    ]
     
-    var itemAray = [ShoppingItem]()
     
     
     var currentString = ""
@@ -41,27 +52,28 @@ class ViewController: UIViewController {
     @IBOutlet weak var lowerView: UIView!
     @IBOutlet weak var topViewConstraint: NSLayoutConstraint!
    //
-    @IBOutlet weak var lowerViewTrailing: NSLayoutConstraint!
+   
 //        @IBOutlet weak var topViewTopEdge: NSLayoutConstraint!
     @IBOutlet weak var lowerViewLeading: NSLayoutConstraint!
-    //
-   
-    
+
+    @IBOutlet weak var lowerViewTrailing: NSLayoutConstraint!
+
 //    @IBOutlet weak var topEdgeConst: NSLayoutConstraint!
     
+    @IBOutlet weak var currtentListLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var currentLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var infoButton: UIButton!
     
-   
+   static let listArrayKey = ""
     
    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(currentShoppingList)
 //        if let items = defaults.array(forKey: "GroceryListArray") as? [ShoppingItem] {
 //            itemAray = items
 //        }
@@ -69,19 +81,90 @@ class ViewController: UIViewController {
         totalLabel.text = "\(formatter(int: totalInt))"
        
         audio = defaults.bool(forKey: "audio")
-        
+        let hasLaunched = defaults.bool(forKey: "savedFirstData")
+        if !hasLaunched {
+            listArray.append(currentShoppingList)
+            saveListArray()
+            defaults.setValue(true, forKey: "savedFirstData")
+            defaults.setValue(sortSwitch, forKey: "sortSwitch")
+            defaults.setValue(currentShoppingList, forKey: "currentList")
+            currtentListLabel.text = currentShoppingList.uppercased()
+            
+        }
+        sortSwitch = defaults.bool(forKey: "sortSwitch")
+        newID = defaults.integer(forKey: "newID")
         budgetLimit = defaults.integer(forKey: "budgetLimit")
+        currentShoppingList = defaults.string(forKey: "currentList") ?? "All Lists"
         updateBudgetColor()
-        
+        currtentListLabel.text = currentShoppingList.uppercased()
         tableView.delegate = self
         tableView.dataSource = self
-        self.tableView.allowsMultipleSelectionDuringEditing = false
-        loadItems() 
+        tableView.allowsMultipleSelectionDuringEditing = false
+        loadItems()
+        loadListArray()
+        setSortArray()
+        print(listArray)
+        
+        tableView.reloadData()
+       
+        print("this is the list \(currentShoppingList)")
+        
+//        for i in 0..<itemAray.count {
+//            print("item \(sortableArray[i].item)")
+//            }
+//            for i in 0..<sortableArray.count {
+//                print("sort \(sortableArray[i].item)")
+//
+//        }
+        
+//        setParentArray()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        
+        setSortArray()
+        print("view is apearing")
+//        DispatchQueue.main.async {
+//            self.tableView.reloadData()
+//        }
+//        tableView.reloadData()
     }
     
     
-  
+    @IBAction func unwindToCalculator(_ sender: UIStoryboardSegue) {
+        if sender.identifier == "goBackToHome" {
+//        DispatchQueue.global(qos: .userInitiated).async {
+//        currentShoppingList = defaults.string(forKey: "currentList") ?? "All Lists"
+       
+//        currentShoppingList = defaults.string(forKey: "currentList")!
+     
+        
+    loadItems()
+        setSortArray()
+        print("Updated tableview in unwind")
+        print(currentShoppingList)
+        tableView.reloadData()
+            currtentListLabel.text = currentShoppingList.uppercased()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//            self.tableView.reloadData()
+//        }
+        
     
+//    @IBAction override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
+//
+        }
+        if sender.identifier == "fromInfoToHome" {
+         print("got home from segue")
+            sortSwitch = defaults.bool(forKey: "sortSwitch")
+            print("\(sortSwitch)")
+        }
+    }
+
+    
+    @IBAction func showListSelectorView(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToListSelector", sender: self)
+      
+        // show
+    }
     
     
     @IBAction func checkmarkPressed(_ sender: UIButton) {
@@ -201,7 +284,7 @@ class ViewController: UIViewController {
     @IBAction func clearAllPressed(_ sender: UIButton) {
         playSound(sender: sender.tag)
         sender.backgroundColor = UIColor.systemGray3
-        let alert = UIAlertController(title: "Clear" , message: "Are you sure you want to clear", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Clear" , message: "Are you sure you want to clear all calculation?", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Clear", style: .default) { (action) in
             self.totalInt = 0
@@ -233,8 +316,7 @@ class ViewController: UIViewController {
                 AudioServicesPlaySystemSound(1105)
             }
             
-//            audioPlayer = try! AVAudioPlayer(contentsOf: url!)
-//        audioPlayer.play()
+
         }
         else {
             return
@@ -252,11 +334,22 @@ class ViewController: UIViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
             
-            let newItem = ShoppingItem(item: textField.text ?? "New Item", check: false)
+//            let newItem = Item(context: self.context)
+//            newItem.item = textField.text ?? "NewItem"
+//            newItem.check = false
+//            newItem.dateCreated = Date()
+//            newItem.expectedPrice = 0
+//            newItem.parentListName = self.currentShoppingList
             
+            
+        
+            let newItem = ShoppingItem(id: self.newID, item: textField.text ?? "New Item", check: false, catagory: self.currentShoppingList, date: Date())
+            self.newID += 1
+            self.defaults.setValue(self.newID, forKey: "newID")
             self.itemAray.append(newItem)
             
             self.saveItems()
+            self.setSortArray()
            
             self.tableView.reloadData()
             
@@ -288,13 +381,13 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemAray.count
+        return sortableArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
        
-        let item = itemAray[indexPath.row]
+        let item = sortableArray[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableCell", for: indexPath)
         cell.textLabel?.text = item.item
         cell.accessoryType = item.check ? .checkmark : .none
@@ -303,9 +396,17 @@ extension ViewController: UITableViewDataSource {
         }
     
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        itemAray[indexPath.row].check = !itemAray[indexPath.row].check
+        let id = sortableArray[indexPath.row].id
+        for i in 0..<itemAray.count {
+            if itemAray[i].id == id {
+                itemAray[i].check = !itemAray[i].check
+            }
+        }
+//        sortableArray[indexPath.row].check = !sortableArray [indexPath.row].check
         tableView.deselectRow(at: indexPath, animated: true)
         saveItems()
+        setSortArray()
+        tableView.reloadData()
       
     }
     
@@ -315,8 +416,21 @@ extension ViewController: UITableViewDataSource {
     
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            itemAray.remove(at: indexPath.row)
+//            context.delete(itemAray[indexPath.row])
+            let id = sortableArray[indexPath.row].id
+           var tempArray = [ShoppingItem]()
+            for i in 0..<itemAray.count {
+                if itemAray[i].id != id {
+                    tempArray.append(itemAray[i])
+                }
+            }
+            itemAray = tempArray
+            
+            
             saveItems()
+            setSortArray()
+            print(currentShoppingList)
+            tableView.reloadData()
           
             
         }
@@ -325,6 +439,9 @@ extension ViewController: UITableViewDataSource {
     
 }
     
+
+    //MARK: - TableView
+
 extension ViewController: UITableViewDelegate {
 
   
@@ -418,13 +535,102 @@ extension ViewController: UITableViewDelegate {
                 nil)
     }
     
+    func saveListArray() {
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(listArray)
+            try data.write(to: listDataPath!)
+        } catch {
+            print("there was an error encoding the List Array \(error)")
+        }
+    }
+    
+    func loadListArray() {
+        if let data = try? Data(contentsOf: listDataPath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                listArray = try decoder.decode([String].self, from: data)
+            } catch {
+                print("There was an error loading the data\(error)")
+            }
+        }
+    }
+        
+    func setSortArray() {
+        if sortSwitch == false {
+        print("sort to bottom is off")
+        if currentShoppingList == "All Lists" {
+            print("all lists included")
+            sortableArray = itemAray
+            print(sortableArray.count)
+            tableView.reloadData()
+            print("item array count: \(itemAray.count)")
+        } else {
+            sortableArray.removeAll()
+            for i in 0..<itemAray.count {
+                if itemAray[i].catagory == currentShoppingList {
+                    sortableArray.append(itemAray[i])
+                    
+                }
+                print(sortableArray.count)
+//                tableView.reloadData()
+                
+            }
+        }
+    }
+        else {
+            if currentShoppingList == "All Lists" {
+                var tempArray = [ShoppingItem]()
+                print("all lists included. sort set on")
+                
+//                sortableArray = itemAray
+                for i in 0..<itemAray.count {
+                    if itemAray[i].check == false {
+                        tempArray.append(itemAray[i])
+                    }
+                    
+                }
+                for i in 0..<itemAray.count {
+                    if itemAray[i].check == true {
+                        tempArray.append(itemAray[i])
+                    }
+                }
+                sortableArray = tempArray
+                print("sorted \(sortableArray.count) items by check")
+                tableView.reloadData()
+                print("item array count: \(itemAray.count)")
+            }
+            else {
+                sortableArray.removeAll()
+                for i in 0..<itemAray.count {
+                    if itemAray[i].catagory == currentShoppingList && itemAray[i].check == false {
+                        sortableArray.append(itemAray[i])
+                        
+                    }
+                }
+                    for i in 0..<itemAray.count {
+                        if itemAray[i].catagory == currentShoppingList && itemAray[i].check == true {
+                            sortableArray.append(itemAray[i])
+                        }
+                    }
+                    print(sortableArray.count)
+    //                tableView.reloadData()
+                    
+                
+            }
+        }
+        
+    }
+    
     func saveItems() {
+        
+        
         let encoder = PropertyListEncoder()
         do {
             let data =  try encoder.encode(itemAray)
             try data.write(to: dataPath!)
         } catch {
-            print("error in coding array, \(error)")
+            print("error encoding ItemArray, \(error)")
         }
         tableView.reloadData()
     }
@@ -442,7 +648,25 @@ extension ViewController: UITableViewDelegate {
     
 }
 
-extension ViewController: infoPageDelegate {
+extension ViewController: infoPageDelegate, listSelectordelegate {
+   
+    
+    func returnAllLists(lists: [String]) {
+//     loadListArray()
+//        setSortArray()
+         
+    }
+    
+    func deleteList(list: String) {
+      
+        
+    }
+    
+    func sortSwitch(onOff: Bool) {
+        sortSwitch = onOff
+        defaults.setValue(onOff, forKey: "sortSwitch")
+        print("set switch from delegate")
+    }
     func audioSwitch(onOff: Bool) {
         audio = onOff
         defaults.setValue(onOff, forKey: "audio")
@@ -465,19 +689,59 @@ extension ViewController: infoPageDelegate {
             let vc = segue.destination as! InfoPageViewController
             vc.switchHolder = audio
             vc.budgetLimit = budgetLimit
+            vc.sortHolder = sortSwitch
             vc.delegate = self
         }
+        else if segue.identifier == "goToListSelector" {
+           
+            let vc = segue.destination as! ListSelectorView
+            vc.currentSelection = currentShoppingList
+            vc.listArray = listArray
+            
+            }
+           
+            
+        }
         
+    
+    
+    func setParentArray() {
+//        for i in 0..<itemAray.count {
+//            if listArray.contains(itemAray[i].parentListName!) {
+//                return
+//            } else {
+//                listArray.append(itemAray[i].parentListName!)
+//            }
+//        }
     }
     
 }
 
-//extension UIButton {
-//    func setBackgroundColor(_ color: UIColor, forState controlState: UIControl.State) {
-//        let colorImage = UIGraphicsRenderer(size: CGSize(width: 1, height: 1)).image { _ in
-//            color.setFill()
-//            UIBezierPath(rect: CGRect(x: 0,y: 0, width: 1,height: 1)).fill()
-//        }
-//        setBackgroundImage(colorImage, for: controlState)
+
+
+
+
+
+extension Array where Element:Equatable {
+    func removeDuplicates() -> [Element] {
+        var result = [Element]()
+        
+        for value in self {
+            if result.contains(value) == false {
+                result.append(value)
+            }
+        }
+        return result
+    }
+}
+
+
+//extension ViewController {
+//    func createListSelectorView() {
+//        let window = UIApplication.shared.keyWindow
+//        listSelectorView.backgroundColor = UIColor(named: "greenColorSet")
+//        listSelectorView.frame.width = self.view.frame.width
+//        listSelectorView.frame.height = 225
+//        self.view.addSubview(listSelectorView)
 //    }
 //}
