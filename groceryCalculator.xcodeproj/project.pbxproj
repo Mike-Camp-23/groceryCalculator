@@ -9,7 +9,13 @@
 /* Begin PBXBuildFile section */
 		842F1618262F154F00CEAE9A /* ListSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F1617262F154F00CEAE9A /* ListSelectorView.swift */; };
 		842F161B262F26D900CEAE9A /* ShoppingItem2_0.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842F161A262F26D900CEAE9A /* ShoppingItem2_0.swift */; };
-		8459411F262DB8D70032BE75 /* CustomNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8459411E262DB8D70032BE75 /* CustomNumberButton.swift */; };
+		84574A592637353D004817E8 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84574A582637353D004817E8 /* WelcomeViewController.swift */; };
+		84574A98263768A1004817E8 /* WelcomePage2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84574A97263768A1004817E8 /* WelcomePage2ViewController.swift */; };
+		84574A9B263768AE004817E8 /* WelcomePage3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84574A9A263768AE004817E8 /* WelcomePage3ViewController.swift */; };
+		84574A9F26382488004817E8 /* WelcomeTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84574A9E26382488004817E8 /* WelcomeTutorialView.swift */; };
+		84574AA22638275D004817E8 /* TutorialTabView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84574AA12638275D004817E8 /* TutorialTabView1.swift */; };
+		84574AA526382CF0004817E8 /* TutorialTabView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84574AA426382CF0004817E8 /* TutorialTabView2.swift */; };
+		84574AA826383434004817E8 /* TutorialTabView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84574AA726383434004817E8 /* TutorialTabView3.swift */; };
 		847AAB7D2614AB8E00D290D0 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AAB7C2614AB8E00D290D0 /* ListViewController.swift */; };
 		847AAB802614AFA500D290D0 /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AAB7F2614AFA500D290D0 /* ShoppingItem.swift */; };
 		847AAB8326150D6F00D290D0 /* DripSound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 847AAB8226150D6F00D290D0 /* DripSound.m4a */; };
@@ -27,7 +33,13 @@
 /* Begin PBXFileReference section */
 		842F1617262F154F00CEAE9A /* ListSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSelectorView.swift; sourceTree = "<group>"; };
 		842F161A262F26D900CEAE9A /* ShoppingItem2_0.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem2_0.swift; sourceTree = "<group>"; };
-		8459411E262DB8D70032BE75 /* CustomNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNumberButton.swift; sourceTree = "<group>"; };
+		84574A582637353D004817E8 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		84574A97263768A1004817E8 /* WelcomePage2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage2ViewController.swift; sourceTree = "<group>"; };
+		84574A9A263768AE004817E8 /* WelcomePage3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomePage3ViewController.swift; sourceTree = "<group>"; };
+		84574A9E26382488004817E8 /* WelcomeTutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeTutorialView.swift; sourceTree = "<group>"; };
+		84574AA12638275D004817E8 /* TutorialTabView1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialTabView1.swift; sourceTree = "<group>"; };
+		84574AA426382CF0004817E8 /* TutorialTabView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialTabView2.swift; sourceTree = "<group>"; };
+		84574AA726383434004817E8 /* TutorialTabView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialTabView3.swift; sourceTree = "<group>"; };
 		847AAB7C2614AB8E00D290D0 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		847AAB7F2614AFA500D290D0 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
 		847AAB8226150D6F00D290D0 /* DripSound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = DripSound.m4a; sourceTree = "<group>"; };
@@ -68,6 +80,10 @@
 			isa = PBXGroup;
 			children = (
 				84EB1CFB2613866E00670CE1 /* Main.storyboard */,
+				84574A9E26382488004817E8 /* WelcomeTutorialView.swift */,
+				84574AA12638275D004817E8 /* TutorialTabView1.swift */,
+				84574AA426382CF0004817E8 /* TutorialTabView2.swift */,
+				84574AA726383434004817E8 /* TutorialTabView3.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -76,9 +92,11 @@
 			isa = PBXGroup;
 			children = (
 				84EB1CF92613866E00670CE1 /* ViewController.swift */,
-				8459411E262DB8D70032BE75 /* CustomNumberButton.swift */,
 				847AAB8C261CA6D000D290D0 /* InfoPageViewController.swift */,
 				842F1617262F154F00CEAE9A /* ListSelectorView.swift */,
+				84574A582637353D004817E8 /* WelcomeViewController.swift */,
+				84574A97263768A1004817E8 /* WelcomePage2ViewController.swift */,
+				84574A9A263768AE004817E8 /* WelcomePage3ViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -190,16 +208,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84574AA526382CF0004817E8 /* TutorialTabView2.swift in Sources */,
+				84574A9B263768AE004817E8 /* WelcomePage3ViewController.swift in Sources */,
 				847AAB802614AFA500D290D0 /* ShoppingItem.swift in Sources */,
+				84574A592637353D004817E8 /* WelcomeViewController.swift in Sources */,
 				84EB1CFA2613866E00670CE1 /* ViewController.swift in Sources */,
+				84574AA22638275D004817E8 /* TutorialTabView1.swift in Sources */,
 				84EB1CF62613866E00670CE1 /* AppDelegate.swift in Sources */,
-				8459411F262DB8D70032BE75 /* CustomNumberButton.swift in Sources */,
 				842F1618262F154F00CEAE9A /* ListSelectorView.swift in Sources */,
 				842F161B262F26D900CEAE9A /* ShoppingItem2_0.swift in Sources */,
+				84574A9F26382488004817E8 /* WelcomeTutorialView.swift in Sources */,
+				84574AA826383434004817E8 /* TutorialTabView3.swift in Sources */,
 				847AAB8D261CA6D000D290D0 /* InfoPageViewController.swift in Sources */,
 				84EB1CF82613866E00670CE1 /* SceneDelegate.swift in Sources */,
 				847AAB7D2614AB8E00D290D0 /* ListViewController.swift in Sources */,
 				84EB1D002613866E00670CE1 /* DataModel.xcdatamodeld in Sources */,
+				84574A98263768A1004817E8 /* WelcomePage2ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,11 +379,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.Camp.Mike.groceryCalc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -377,11 +401,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = me.Camp.Mike.groceryCalc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

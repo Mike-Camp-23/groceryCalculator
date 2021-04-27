@@ -49,6 +49,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var checlMarkOutlet: UIButton!
     
+    @IBOutlet weak var removeAllChecksOutlet: UIButton!
     @IBOutlet weak var lowerView: UIView!
     @IBOutlet weak var topViewConstraint: NSLayoutConstraint!
    //
@@ -74,9 +75,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print(currentShoppingList)
-//        if let items = defaults.array(forKey: "GroceryListArray") as? [ShoppingItem] {
-//            itemAray = items
-//        }
+        
+//
         totalInt = defaults.integer(forKey: "total")
         totalLabel.text = "\(formatter(int: totalInt))"
        
@@ -118,11 +118,31 @@ class ViewController: UIViewController {
 //        }
         
 //        setParentArray()
+        
+       
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if defaults.bool(forKey: "HasSeentutorial") == false {
+            
+            
+            performSegue(withIdentifier: "goToTutorial", sender: self)
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+       
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
         setSortArray()
         print("view is apearing")
+        
+        
 //        DispatchQueue.main.async {
 //            self.tableView.reloadData()
 //        }
@@ -132,11 +152,6 @@ class ViewController: UIViewController {
     
     @IBAction func unwindToCalculator(_ sender: UIStoryboardSegue) {
         if sender.identifier == "goBackToHome" {
-//        DispatchQueue.global(qos: .userInitiated).async {
-//        currentShoppingList = defaults.string(forKey: "currentList") ?? "All Lists"
-       
-//        currentShoppingList = defaults.string(forKey: "currentList")!
-     
         
     loadItems()
         setSortArray()
@@ -144,18 +159,14 @@ class ViewController: UIViewController {
         print(currentShoppingList)
         tableView.reloadData()
             currtentListLabel.text = currentShoppingList.uppercased()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//            self.tableView.reloadData()
-//        }
-        
-    
-//    @IBAction override func unwind(for unwindSegue: UIStoryboardSegue, towards subsequentVC: UIViewController) {
-//
+
         }
         if sender.identifier == "fromInfoToHome" {
          print("got home from segue")
             sortSwitch = defaults.bool(forKey: "sortSwitch")
             print("\(sortSwitch)")
+            setSortArray()
+            tableView.reloadData()
         }
     }
 
@@ -224,6 +235,12 @@ class ViewController: UIViewController {
     }
     
     
+    @IBAction func removeAllChecksPressed(_ sender: UIButton) {
+        playSound(sender: 2)
+        print("Check Changer Pressed")
+        showCheckActionSheet()
+       
+    }
     @IBAction func showListButton(_ sender: UIButton) {
         
        
@@ -479,11 +496,13 @@ extension ViewController: UITableViewDelegate {
         UIView.animate(withDuration: 0.13, delay: 0.0, options: .curveEaseInOut,  animations: {
             self.lowerView.alpha = 0
             self.view.layoutIfNeeded()
+            
             })
-        
+        self.removeAllChecksOutlet.isHidden = false
+
         UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseInOut) {
             
-            
+            self.removeAllChecksOutlet.alpha = 1
             self.currentLabel.alpha = 0
             self.topViewConstraint.constant = 7
             self.view.layoutIfNeeded()
@@ -500,18 +519,19 @@ extension ViewController: UITableViewDelegate {
     
     func listAnimationClosed() {
         lowerView.isHidden = false
-       
+        
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseInOut, animations: {
             self.topViewConstraint.constant = 225
             self.currentLabel.alpha = 1
             self.view.layoutIfNeeded()
-            
+            self.removeAllChecksOutlet.alpha = 0
         })
         UIView.animate(withDuration: 0.20, delay: 0.15, options: .curveEaseInOut,  animations: {
             self.lowerView.alpha = 1
             self.view.layoutIfNeeded()
             
         })
+        removeAllChecksOutlet.isHidden = true
     }
     
     func uncheckMark() {
@@ -715,6 +735,48 @@ extension ViewController: infoPageDelegate, listSelectordelegate {
 //        }
     }
     
+    
+    func showCheckActionSheet() {
+        if currentShoppingList == "All Lists" {
+            let alert = UIAlertController(title: "Clear All Check Marks From All Lists", message: "Are you sure you want to remove the check marks from ALL lists?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Remove", style: .destructive, handler: { (UIAlertAction) in
+                for i in 0..<self.itemAray.count {
+                    self.itemAray[i].check = false
+                }
+                self.saveItems()
+                self.setSortArray()
+                self.tableView.reloadData()
+                
+            })
+            )
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+        let alert = UIAlertController(title: "Clear Check Marks", message: "Would you want to remove the check marks from all lists or just the current list?", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Remove From All", style: .destructive, handler: { (UIAlertAction) in
+                for i in 0..<self.itemAray.count {
+                    self.itemAray[i].check = false
+                }
+                self.saveItems()
+                self.setSortArray()
+                self.tableView.reloadData()
+            }))
+            alert.addAction(UIAlertAction(title: "Current List Only", style: .default, handler: { (UIAlertAction) in
+                for i in 0..<self.itemAray.count {
+                    if self.itemAray[i].catagory == self.currentShoppingList {
+                        self.itemAray[i].check = false
+                    }
+                    self.saveItems()
+                    self.setSortArray()
+                    self.tableView.reloadData()
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
+        
+    }
+    
 }
 
 
@@ -732,6 +794,19 @@ extension Array where Element:Equatable {
             }
         }
         return result
+    }
+    
+    
+}
+
+class Core {
+    static let shared = Core()
+    func isNewUser() -> Bool {
+        return !UserDefaults.standard.bool(forKey: "HasSeentutorial")
+    }
+    
+    func setIsNotNewUser() {
+        UserDefaults.standard.setValue(true, forKey: "HasSeentutorial")
     }
 }
 
