@@ -62,6 +62,7 @@ struct TutorialTabView3: View {
                
             }
         } // VStack
+        .background(Color.red.edgesIgnoringSafeArea(.all))
     }
 }
 

@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(currentShoppingList)
+//        print(currentShoppingList)
         
 //
         totalInt = defaults.integer(forKey: "total")
@@ -103,11 +103,11 @@ class ViewController: UIViewController {
         loadItems()
         loadListArray()
         setSortArray()
-        print(listArray)
+//        print(listArray)
         
         tableView.reloadData()
        
-        print("this is the list \(currentShoppingList)")
+//        print("this is the list \(currentShoppingList)")
         
 //        for i in 0..<itemAray.count {
 //            print("item \(sortableArray[i].item)")
@@ -140,7 +140,7 @@ class ViewController: UIViewController {
         super.viewWillAppear(true)
         
         setSortArray()
-        print("view is apearing")
+//        print("view is apearing")
         
         
 //        DispatchQueue.main.async {
@@ -155,16 +155,16 @@ class ViewController: UIViewController {
         
     loadItems()
         setSortArray()
-        print("Updated tableview in unwind")
-        print(currentShoppingList)
+//        print("Updated tableview in unwind")
+//        print(currentShoppingList)
         tableView.reloadData()
             currtentListLabel.text = currentShoppingList.uppercased()
 
         }
         if sender.identifier == "fromInfoToHome" {
-         print("got home from segue")
+//         print("got home from segue")
             sortSwitch = defaults.bool(forKey: "sortSwitch")
-            print("\(sortSwitch)")
+//            print("\(sortSwitch)")
             setSortArray()
             tableView.reloadData()
         }
@@ -237,7 +237,7 @@ class ViewController: UIViewController {
     
     @IBAction func removeAllChecksPressed(_ sender: UIButton) {
         playSound(sender: 2)
-        print("Check Changer Pressed")
+//        print("Check Changer Pressed")
         showCheckActionSheet()
        
     }
@@ -446,7 +446,7 @@ extension ViewController: UITableViewDataSource {
             
             saveItems()
             setSortArray()
-            print(currentShoppingList)
+//            print(currentShoppingList)
             tableView.reloadData()
           
             
@@ -561,7 +561,7 @@ extension ViewController: UITableViewDelegate {
             let data = try encoder.encode(listArray)
             try data.write(to: listDataPath!)
         } catch {
-            print("there was an error encoding the List Array \(error)")
+//            print("there was an error encoding the List Array \(error)")
         }
     }
     
@@ -578,13 +578,13 @@ extension ViewController: UITableViewDelegate {
         
     func setSortArray() {
         if sortSwitch == false {
-        print("sort to bottom is off")
+//        print("sort to bottom is off")
         if currentShoppingList == "All Lists" {
-            print("all lists included")
+//            print("all lists included")
             sortableArray = itemAray
-            print(sortableArray.count)
+//            print(sortableArray.count)
             tableView.reloadData()
-            print("item array count: \(itemAray.count)")
+//            print("item array count: \(itemAray.count)")
         } else {
             sortableArray.removeAll()
             for i in 0..<itemAray.count {
@@ -592,7 +592,7 @@ extension ViewController: UITableViewDelegate {
                     sortableArray.append(itemAray[i])
                     
                 }
-                print(sortableArray.count)
+//                print(sortableArray.count)
 //                tableView.reloadData()
                 
             }
@@ -601,7 +601,7 @@ extension ViewController: UITableViewDelegate {
         else {
             if currentShoppingList == "All Lists" {
                 var tempArray = [ShoppingItem]()
-                print("all lists included. sort set on")
+//                print("all lists included. sort set on")
                 
 //                sortableArray = itemAray
                 for i in 0..<itemAray.count {
@@ -616,9 +616,9 @@ extension ViewController: UITableViewDelegate {
                     }
                 }
                 sortableArray = tempArray
-                print("sorted \(sortableArray.count) items by check")
+//                print("sorted \(sortableArray.count) items by check")
                 tableView.reloadData()
-                print("item array count: \(itemAray.count)")
+//                print("item array count: \(itemAray.count)")
             }
             else {
                 sortableArray.removeAll()
@@ -633,7 +633,7 @@ extension ViewController: UITableViewDelegate {
                             sortableArray.append(itemAray[i])
                         }
                     }
-                    print(sortableArray.count)
+//                    print(sortableArray.count)
     //                tableView.reloadData()
                     
                 
@@ -685,7 +685,7 @@ extension ViewController: infoPageDelegate, listSelectordelegate {
     func sortSwitch(onOff: Bool) {
         sortSwitch = onOff
         defaults.setValue(onOff, forKey: "sortSwitch")
-        print("set switch from delegate")
+//        print("set switch from delegate")
     }
     func audioSwitch(onOff: Bool) {
         audio = onOff
@@ -694,7 +694,7 @@ extension ViewController: infoPageDelegate, listSelectordelegate {
     
     func budgetLimit(budget: Int) {
         budgetLimit = budget
-        print("budget limit set: \(budgetLimit)")
+//        print("budget limit set: \(budgetLimit)")
         updateBudgetColor()
         defaults.setValue(budget, forKey: "budgetLimit")
     }

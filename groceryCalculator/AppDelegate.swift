@@ -7,6 +7,10 @@
 
 import UIKit
 import CoreData
+import SwiftUI
+
+
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

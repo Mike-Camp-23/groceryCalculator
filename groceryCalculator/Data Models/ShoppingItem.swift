@@ -18,3 +18,10 @@ struct ShoppingItem : Codable{
     
     
 }
+
+struct ListModel: Codable {
+    var id: Int
+    var name: String
+    
+    
+}
